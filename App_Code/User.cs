@@ -15,7 +15,7 @@ public class User: Database
     public String EMail;
     public String Phone;
     public String Logon;
-    public String Department;
+    public Department Department;
     public List<Role> Role;
     public bool Confirmed;
     public bool CalloutLog;
@@ -49,6 +49,7 @@ public class User: Database
             }
             rd.Close();
             cm = null;
+            
         }
         catch (Exception)
         {
@@ -86,5 +87,65 @@ public class User: Database
         return (_Roles);
     }
 
+    public List<Department> getDepartments()
+    {
+        List<Department> _Departments = new List<Department>();
+        Query = "SELECT department.id, department.name " +
+                "FROM department ORDER BY department.name";
+        try
+        {
+            Data.SqlCommand cm = new Data.SqlCommand();
+            cm.CommandText = Query;
+            cm.Connection = cn;
+            Data.SqlDataReader rd = cm.ExecuteReader();
+            while (rd.Read())
+            {
+                Department _Department = new Department();
+                _Department.Id = rd.GetInt16(0);
+                _Department.Name = rd.GetString(1);
+                _Departments.Add(_Department);
+            }
+            rd.Close();
+            cm = null;
 
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+        return (_Departments);
+
+    }
+
+    public Department getDepartment(int UserId)
+    {
+        Department _Department = new Department();
+        Query = "SELECT department.id, department.name " +
+                "FROM department INNER JOIN [User] ON [User].departmentid = department.id " +
+                "WHERE User.Id = " + UserId + " ORDER BY department.name";
+        try
+        {
+            Data.SqlCommand cm = new Data.SqlCommand();
+            cm.CommandText = Query;
+            cm.Connection = cn;
+            Data.SqlDataReader rd = cm.ExecuteReader();
+            rd.Read();
+            if(rd.HasRows)
+            {
+                _Department.Id = rd.GetInt16(0);
+                _Department.Name = rd.GetString(1);
+            }
+            rd.Close();
+            cm = null;
+
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+        return (_Department);
+
+    }
 }

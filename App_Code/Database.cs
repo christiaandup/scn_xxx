@@ -10,7 +10,7 @@ using Data = System.Data.SqlClient;
 public class Database
 {
     public Data.SqlConnection cn;
-    private const String CONNSTRING = "Data Source=aisrbmrweb01;Initial Catalog=webserver;Persist Security Info=True;User ID=webuser;Password=webuser";
+    private const String CONNSTRING = "Data Source=aisrbmrweb01;Initial Catalog=scn_xxx;Persist Security Info=True;User ID=webuser;Password=webuser";
     private String Query;
     public String ExceptionString;
 
@@ -29,7 +29,7 @@ public class Database
         }
 	}
 
-    public ~Database()
+    ~Database()
     {
         try
         {

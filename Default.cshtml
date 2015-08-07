@@ -36,8 +36,11 @@
         <h5>Add NuGet packages and jump start your coding</h5>
         NuGet makes it easy to install and update free libraries and tools.
         <a href="http://go.microsoft.com/fwlink/?LinkId=245140">Learn more…</a>
+        @{
+            User user = new User();            
+        }
+        @Html.DropDownList("Departments",user.fillDepartments())
     </li>
-
     <li class="three">
         <h5>Find Web Hosting</h5>
         You can easily find a web hosting company that offers the right mix of features and price for your applications.

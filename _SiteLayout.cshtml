@@ -19,18 +19,23 @@
                 </div>
                 <div class="float-right">
                     <section id="login">
-                        @if (WebSecurity.IsAuthenticated) {
+                        @{
+                            Request _Req = new Request();
+                            User _User = new User();
+                            bool _isUser = false;
+                            if (_Req.isUser(HttpContext.Current.User.Identity.Name)) // WebSecurity.CurrentUserName
+                            {
+                                _isUser = true;
+                                _User = _Req.getUser(HttpContext.Current.User.Identity.Name);
+                            } 
+                        }
+                        @if (_isUser) {
                             <text>
-                                Hello, <a class="email" href="~/Account/Manage" title="Manage">@WebSecurity.CurrentUserName</a>!
-                                <form id="logoutForm" action="~/Account/Logout" method="post">
-                                    @AntiForgery.GetHtml()
-                                    <a href="javascript:document.getElementById('logoutForm').submit()">Log out</a>
-                                </form>
+                                Hello, <a class="email" href="~/Account/Manage" title="Manage">@_User.Name</a>!
                             </text>
                         } else {
                             <ul>
                                 <li><a href="~/Account/Register">Register</a></li>
-                                <li><a href="~/Account/Login">Log in</a></li>
                             </ul>
                         }
                     </section>
